@@ -3,13 +3,43 @@
 #Author : Munmeet Grewal
 
 
-import rec
+import re
 from typing import Iterable, List
 
-WHITESPACE_RUN = re.compile(r"\st") 
+WHITESPACE_RUN = re.compile(r"\s+") 
 
 def remove_whitespace(text: str)-> str :
   return WHITESPACE_RUN.sub(" ", text)
 
 def cleanUp_line(raw_line: str) -> str:
-  line = 
+  line = raw_line.rstrip("\n\r")
+  line = line.lower()
+  line = line.strip()
+  if line:
+    line = remove_whitespace(line)
+  return line
+
+def preproc_lines(lines: Iterable[str]) -> List[str]: 
+  cleaned = []
+  for l in lines:
+    c = cleanUp_line(l)
+    if c:
+      cleaned.append(c)
+  return cleaned
+
+def preproc_from_disk(path:str, encoding: str = "utf-8") -> List[str]:
+  with open(path, "r", encoding=encoding) as f:
+    return preproc_lines(f)
+
+if __name__ == "__main__":
+  import sys
+  
+  if len(sys.argv) != 2: 
+    print("Error: Incorrect number of files provided")
+    sys.exit(1)
+
+  file_path = sys.argv[1]
+  cleanedUp_lines = preproc_from_disk(file_path)
+  for i, line in enumerate(cleanedUp_lines, start = 1):
+    print(f"{i:4}: {line}") 
+  

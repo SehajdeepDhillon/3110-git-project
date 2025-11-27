@@ -1,0 +1,63 @@
+Test 1 — Content Similarity
+============================
+line_a = "int a = b + c;"
+line_b = "int x = y + z;"
+expected similarity ≈ 0.7–0.9
+
+Explanation:
+- Both lines have similar structure and length
+- Levenshtein distance accounts for character differences
+- Normalized by max length gives similarity score
+
+Test 2 — Context Similarity
+============================
+context_a = ["public int foo()", "int a = 0;", "return a;"]
+context_b = ["public int foo()", "int b = 1;", "return b;"]
+expected cosine > 0.75
+
+Explanation:
+- Both contexts share many common tokens: "public", "int", "foo", "return"
+- Tokenization creates bag-of-words vectors
+- Cosine similarity measures overlap between token sets
+
+Test 3 — SimHash
+================
+tokens = ["int", "a", "=", "b", "+", "c"]
+simhash returns a 32-bit integer
+
+Explanation:
+- Each token is hashed using MD5
+- Bit-weight vector is built from hash bits
+- Final signature is a 32-bit integer representing the token set
+
+Test 4 — Hamming Distance
+==========================
+hash1 = 0b101010
+hash2 = 0b111000
+expected = 2
+
+Explanation:
+- hash1 = 0b101010 (42 in decimal)
+- hash2 = 0b111000 (56 in decimal)
+- XOR: 0b010010
+- Count set bits: 2 (bits at positions 1 and 4 differ)
+
+Test 5 — Candidate Generation
+==============================
+Left:
+["int a = b + c;", "return a;"]
+
+Right:
+["int x = y + z;", "return x;"]
+
+Expected:
+2 candidate sets with 2 right-line indices
+
+Explanation:
+- For each left line, compute SimHash
+- For each right line, compute SimHash
+- Compute Hamming distances between all pairs
+- For left line 0, find closest right lines (likely right line 0)
+- For left line 1, find closest right lines (likely right line 1)
+- Output format: {0: [0, 1], 1: [1, 0]} (or similar, depending on distances)
+

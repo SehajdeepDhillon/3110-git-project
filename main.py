@@ -6,26 +6,22 @@ Runs the LHDiff pipeline (Steps 1–5) on one pair of files:
 This simplified version is only for testing the pipeline.
 """
 
-
 from preprocess import preproc_lines  
 from detect_unchanged import detect_unchanged        
 from generate_candidates import generate_candidate_set 
 from resolve_conflicts import resolve_conflicts     
 from detect_line_splits import detect_line_splits   
 
-
 #Load lines from file
-
 def load_file(path):
     with open(path, "r", encoding="utf-8") as f:
         return f.readlines()
-
 
 def run_lhdiff(old_path, new_path):
     print(f"\nRunning LHDiff on sample files:")
     print(f"  OLD → {old_path}")
     print(f"  NEW → {new_path}")
-
+    
     #Load file contents
     old_raw = load_file(old_path)
     new_raw = load_file(new_path)
@@ -64,3 +60,4 @@ if __name__ == "__main__":
     new_file = "dataset/sample/new_file1.txt"
 
     run_lhdiff(old_file, new_file)
+

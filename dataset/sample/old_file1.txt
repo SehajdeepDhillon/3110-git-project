@@ -1,0 +1,5 @@
+int a = 5;
+int b = 6;
+int z = 11;
+int c = a + b;
+return c;

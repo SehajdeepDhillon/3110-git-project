@@ -1,0 +1,13 @@
+# Ground truth mapping
+# Format: left_line_index:right_line_index
+# Note: Line numbers are 1-indexed in XML, converted to 0-indexed
+# -1 means deleted line
+
+242:242
+243:243
+245:243
+247:241
+248:244
+250:245
+251:246
+253:247

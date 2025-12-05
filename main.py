@@ -1,12 +1,11 @@
 """
-Runs the LHDiff pipeline (Steps 1–5) on one pair of files:
-    dataset/sample/old_file1.txt
-    dataset/sample/new_file1.txt
+Main LHDiff pipeline: Runs all 5 steps to map lines between file versions.
 
-This simplified version is only for testing the pipeline.
+Function: lhdiff(old_file, new_file) -> dict
+    Returns final mapping: {left_idx: right_idx} or {left_idx: [right_idx1, right_idx2, ...]}
 """
 
-from preprocess import preproc_lines  
+from preprocess import preprocess_lines  
 from detect_unchanged import detect_unchanged        
 from generate_candidates import generate_candidate_set 
 from resolve_conflicts import resolve_conflicts     
@@ -17,47 +16,61 @@ def load_file(path):
     with open(path, "r", encoding="utf-8") as f:
         return f.readlines()
 
-def run_lhdiff(old_path, new_path):
-    print(f"\nRunning LHDiff on sample files:")
-    print(f"  OLD → {old_path}")
-    print(f"  NEW → {new_path}")
-    
-    #Load file contents
-    old_raw = load_file(old_path)
-    new_raw = load_file(new_path)
+def lhdiff(old_file: str, new_file: str) -> dict:
+    # Load file contents
+    old_raw = load_file(old_file)
+    new_raw = load_file(new_file)
 
     print("\nStep 1: Preprocessing...")
-    old = preproc_lines(old_raw)
-    new = preproc_lines(new_raw)
-    print("Old preprocessed:", old)
-    print("New preprocessed:", new)
+    old = preprocess_lines(old_raw)
+    new = preprocess_lines(new_raw)
+    print(f"Preprocessed: {len(old)} old lines, {len(new)} new lines")
 
     print("\nStep 2: Detect unchanged lines")
-    unchanged = detect_unchanged(old, new)
-    print("Unchanged lines:", unchanged)
+    unchanged, deleted, added = detect_unchanged(old, new)
+    print(f"Unchanged: {len(unchanged)} pairs")
+    print(f"Deleted: {len(deleted)} lines")
+    print(f"Added: {len(added)} lines")
 
     print("\nStep 3: Generate candidate sets")
-    candidates = generate_candidate_set(old, new)
-    print("Candidate sets:", candidates)
+    candidates = generate_candidate_set(old, new, k=15)
+    print(f"Generated {len(candidates)} candidate sets")
 
     print("\nStep 4: Resolve conflicts")
-    resolved = resolve_conflicts(old, new, candidates)
-    print("Resolved matches:", resolved)
+    resolved = resolve_conflicts(old, new, candidates, threshold=0.5)
+    print(f"Resolved: {len(resolved)} matches")
 
     print("\nStep 5: Detect line splits")
-    final_map = detect_line_splits(old, new, resolved)
+    final_map = detect_line_splits(resolved, old, new)
 
     print("\nFINAL MAPPING:")
-    for old_idx, new_idx in final_map.items():
-        print(f"  {old_idx} → {new_idx}")
+    for left_idx in sorted(final_map.keys()):
+        right_val = final_map[left_idx]
+        if isinstance(right_val, list):
+            # Multiple right lines (line split)
+            right_str = "{" + ",".join(map(str, right_val)) + "}"
+        else:
+            # Single right line
+            right_str = str(right_val)
+        print(f"  {left_idx} → {right_str}")
 
     return final_map
 
 
 if __name__ == "__main__":
-    #Using sample dataset
-    old_file = "dataset/sample/old_file1.txt"
-    new_file = "dataset/sample/new_file1.txt"
-
-    run_lhdiff(old_file, new_file)
+    import sys
+    
+    if len(sys.argv) == 3:
+        old_file = sys.argv[1]
+        new_file = sys.argv[2]
+    else:
+        print("Usage: python main.py <old_file> <new_file>")
+        print("Example: python main.py datasets/custom/file01/old.java datasets/custom/file01/new.java")
+        sys.exit(1)
+    
+    print(f"\nRunning LHDiff:")
+    print(f"  OLD → {old_file}")
+    print(f"  NEW → {new_file}")
+    
+    result = lhdiff(old_file, new_file)
 

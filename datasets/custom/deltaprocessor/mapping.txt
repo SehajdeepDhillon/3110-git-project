@@ -1,0 +1,13 @@
+# Ground truth mapping
+# Format: left_line_index:right_line_index
+# Note: Line numbers are 1-indexed in XML, converted to 0-indexed
+# -1 means deleted line
+
+2015:2079
+2016:2080
+2017:2081
+2020:2083
+2023:2084
+2024:2085
+2025:2086
+2026:2087

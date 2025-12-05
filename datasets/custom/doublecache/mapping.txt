@@ -1,0 +1,17 @@
+# Ground truth mapping
+# Format: left_line_index:right_line_index
+# Note: Line numbers are 1-indexed in XML, converted to 0-indexed
+# -1 means deleted line
+
+106:101
+107:101
+108:101
+109:101
+110:101
+111:101
+112:102
+113:102
+114:102
+115:102
+116:102
+117:102

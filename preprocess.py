@@ -4,7 +4,7 @@
 
 
 import re
-from typing import Iterable, List
+from typing import List
 
 WHITESPACE_RUN = re.compile(r"\s+") 
 
@@ -19,17 +19,17 @@ def cleanUp_line(raw_line: str) -> str:
     line = remove_whitespace(line)
   return line
 
-def preproc_lines(lines: Iterable[str]) -> List[str]: 
+def preprocess_lines(lines: list[str]) -> list[str]: 
   cleaned = []
   for l in lines:
     c = cleanUp_line(l)
-    if c:
-      cleaned.append(c)
+    # Keep all lines, even empty ones (normalized)
+    cleaned.append(c)
   return cleaned
 
 def preproc_from_disk(path:str, encoding: str = "utf-8") -> List[str]:
   with open(path, "r", encoding=encoding) as f:
-    return preproc_lines(f)
+    return preprocess_lines(f)
 
 if __name__ == "__main__":
   import sys

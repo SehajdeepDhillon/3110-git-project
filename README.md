@@ -63,41 +63,145 @@ python evaluation/evaluate.py datasets/custom results.csv
 - Shows summary statistics (average %Correct, %Change, %Spurious, %Eliminate)
 
 **Metrics Explained:**
-- **%Correct**: Percentage of ground truth pairs correctly predicted
-- **%Change**: Percentage of predicted pairs that differ from truth
-- **%Spurious**: Percentage of predicted pairs not in ground truth
-- **%Eliminate**: Percentage of ground truth pairs not predicted
+- **Correct**: Percentage of ground truth pairs correctly predicted
+- **Change**: Percentage of predicted pairs that differ from truth
+- **Spurious**: Percentage of predicted pairs not in ground truth
+- **Eliminate**: Percentage of ground truth pairs not predicted
 
 ## Project Structure
 
 ```
 3110_project/
-├── Core Implementation
+├── Core Implementation Files
+│   ├── main.py                    # Main pipeline entry point (CLI)
 │   ├── preprocess.py              # Step 1: Preprocessing
 │   ├── detect_unchanged.py        # Step 2: Detect unchanged lines
-│   ├── generate_candidates.py     # Step 3: Candidate generation
+│   ├── generate_candidates.py    # Step 3: Candidate generation
 │   ├── resolve_conflicts.py       # Step 4: Resolve conflicts
-│   ├── detect_line_splits.py     # Step 5: Detect line splits
-│   ├── main.py                    # Main pipeline (CLI entry point)
+│   ├── detect_line_splits.py      # Step 5: Detect line splits
 │   └── similarity_examples.txt   # Step 3 test examples
 │
-├── Evaluation
-│   └── evaluation/evaluate.py     # Evaluation module
+├── Documentation
+│   └── README.md                  # Main project documentation
 │
-├── Dataset
-│   └── datasets/custom/            # 24 file pairs with ground truth
-│       └── <file_pair>/
-│           ├── old.java
-│           ├── new.java
-│           └── mapping.txt         # Ground truth (0-indexed)
+├── Evaluation Module
+│   └── evaluation/
+│       └── evaluate.py            # Evaluation metrics calculation
+│
+├── Custom Dataset
+│   └── datasets/
+│       └── custom/                # 24 file pairs with ground truth
+│           ├── arrayreference/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── asdf/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── astresolving/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── basetypes/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── buildpathspropertypage/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── compilationunitdocumentprovider/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── cplistlabelprovider/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── deltaprocessor/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── dialogcustomize/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── directorydialog/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── doublecache/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── file01/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── fontdata/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── gc/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── gc2/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── javacodescanner/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── javamodelmanager/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── javaperspectivefactory/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── pluginsearchscope/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── refreshlocal/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── resourcecompareinput/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── resourceinfo/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           ├── savemanager/
+│           │   ├── old.java
+│           │   ├── new.java
+│           │   └── mapping.txt
+│           └── tabfolder/
+│               ├── old.java
+│               ├── new.java
+│               └── mapping.txt
 │
 ├── Visualization
-│   └── visualization/design.md     # GUI design mockups
+│   └── visualization/
+│       ├── design.md              # GUI design mockups documentation
+│       └── mockups/               # Design mockup images
+│           ├── main_view.png
+│           ├── split_view.png
+│           └── summary_view.png
 │
-└── Bonus
-    ├── bonus/commit_parser.py      # Bug-fix commit detection
-    └── bonus/bic_detector.py       # Bug-introducing change detection
-```
+└── Bonus Feature
+    └── bonus/
+        ├── __init__.py
+        ├── commit_parser.py        # Bug-fix commit detection
+        └── bic_detector.py         # Bug-introducing change detection
+ ```
 
 ## Algorithm Details
 

@@ -185,16 +185,3 @@ python main.py datasets/custom/file01/old.java datasets/custom/file01/new.java
 ```bash
 python evaluation/evaluate.py datasets/custom
 ```
-
-## Requirements Met
-
-✅ **Core Implementation**: All 5 steps implemented  
-✅ **Output Format**: `old_line-new_line` mapping  
-✅ **Dataset**: 24 file pairs with ground truth  
-✅ **Evaluation**: Metrics calculation on datasets  
-✅ **Visualization**: GUI design mockups provided  
-✅ **Bonus**: Bug-introducing change detection
-
-## License
-
-Part of COMP-3110 course project.
